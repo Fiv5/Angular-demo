@@ -1,0 +1,15 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <ul class="heroes">
+    <li *ngFor="let hero of heroes" (click)="onSelect(hero)">
+      <!-- each hero goes here -->
+      <span class="badge">
+        {{hero.id}}
+      </span>
+      {{hero.name}}
+    </li>
+  </ul>
+
+  <hero-detail [hero]="selectedHero"></hero-detail>
+</div>
+
