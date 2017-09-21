@@ -1,13 +1,19 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { HttpModule } from '@angular/http';
 
-import { HeroesComponent } from './heroes.component';
-import { HeroDetailComponent } from './hero-detail.component';
-import { HeroService } from './hero.service';
+
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard.component';
+import { HeroDetailComponent } from './hero-detail.component';
+import { HeroesComponent } from './heroes.component';
+import { HeroService } from './hero.service';
+
+import { AppRoutingModule } from './app-routing.module';
+
+import {InMemoryWebApiModule} from 'angular-in-memory-web-api';
+import {InMemoryDataService} from './in-momory-data.service';
 
 @NgModule({
   declarations: [
@@ -19,16 +25,11 @@ import { DashboardComponent } from './dashboard.component';
   imports: [
     BrowserModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: 'heroes', component: HeroesComponent },
-      { path: 'dashboard', component: DashboardComponent },
-      {path: 'detail/:id', component: HeroDetailComponent},
-      { path: '', redirectTo: '/dashboard', pathMatch: 'full' }
-    ])
+    AppRoutingModule,
+    HttpModule,
+    InMemoryWebApiModule.forRoot(InMemoryDataService)
   ],
-  providers: [
-    HeroService
-  ],
+  providers: [HeroService],
   bootstrap: [AppComponent]
 })
 

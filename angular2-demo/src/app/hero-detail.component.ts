@@ -7,23 +7,9 @@ import { HeroService } from './hero.service';
 import { Hero } from './hero';
 
 @Component({
-  // tslint:disable-next-line:component-selector
   selector: 'hero-detail',
-  template: `
-    <div *ngIf="hero">
-    <h2>
-      {{hero.name}} details!
-    </h2>
-    <div>
-      <label for="">id:</label>
-      {{hero.id}}
-    </div>
-    <div>
-      <label for="">name:</label>
-      <input type="text" [(ngModel)]="hero.name" placeholder="name">
-    </div>
-  </div>
-    `,
+  templateUrl: './hero-detail.component.html',
+  styleUrls: ['./hero-detail.component.css']
 })
 
 export class HeroDetailComponent implements OnInit {
@@ -34,8 +20,18 @@ export class HeroDetailComponent implements OnInit {
   ) { }
   @Input() hero: Hero;
 
-  ngOnInit():void {
+  ngOnInit(): void {
     this.route.paramMap
-      // TODO
+      .switchMap((params: ParamMap) => this.heroService.getHero(+params.get('id')))
+      .subscribe(hero => this.hero = hero);
+  }
+
+  goBack(): void {
+    this.location.back();
+  }
+
+  save(): void {
+    this.heroService.update(this.hero)
+      .then(() => this.goBack());
   }
 }
